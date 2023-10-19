@@ -54,5 +54,5 @@ Note: This project uses MSSQL for the database management. Install and setup you
 -	tzdata
 -	Werkzeug
 
-Conclusion:
+## Conclusion:
 The web-based banking application created using Flask provides an easy and secure way for users to perform various banking operations online. By implementing features such as user authentication, account management, transactions, admin dashboard, sessions, email notifications, logging and error handling, and responsive design, the application provides a user-friendly and robust user experience. 
