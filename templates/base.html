@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BOXICON -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS -->
+    {% block css %}
+    <link rel="stylesheet" href="static\css\styles_.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/styles_.css') }}">
+    {% endblock %}
+    <title>GIO & BANKS</title>
+    </head>
+    <body>
+        {% block content %}
+        <!--=============== NAV ===============-->
+        <nav class="nav" id="nav">
+            <div class="nav__menu container" id="nav-menu">
+                <div class="nav__shape"></div>
+                <div class="nav__close" id="nav-close">
+                    <i class='bx bx-x'></i>
+                </div>
+                <div class="nav__data">
+                    <div class="nav__mask">
+                        <img src="static/img/gio_and_banks.webp" alt="" class="nav__img">
+                    </div>
+                    <span class="nav__greeting">WELCOME </span>
+                    <h1 class="nav__name">GIO <br> BANKS</h1>
+                </div>
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link active-link">
+                            <i class='bx bx-home'></i> Home
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" onclick="scrollToSection('#signin')" class="nav__link">
+                            <i class='bx bx-user'></i> User Sign In
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" onclick="scrollToSection('#register')" class="nav__link">
+                            <i class='bx bx-briefcase-alt-2'></i> User Register
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{{url_for('admin_signin')}}" class="nav__link">
+                            <i class='bx bx-user'></i> Admin Sign In
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" onclick="scrollToSection('#contact')" class="nav__link">
+                            <i class='bx bx-message-square-detail'></i> Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    
+
+        <!--=============== MAIN ===============-->
+        <main class="main" id="main">
+            <!-- Header -->
+            <header class="header" id="header">
+                <nav class="header__nav container">
+                    <a href="#" class="header__logo">
+                        GIO & BANKS
+                    </a>
+                    <div class="header__toggle" id="header-toggle">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                </nav>
+            </header>
+    
+            <!-- Home -->
+            <section class="section container" id="home">
+                <h1>HOME</h1>
+                <div class="about">
+                    <div class="top">
+                        <h4 class="bank_subtitle"><br>We have added a host of new features!<br><br>
+                            You can now do so much more:<br>
+                            &#x2022; Anywhere access through Desktop or mobile<br>
+                            &#x2022; Enhanced security measures</h4>
+                    </div>
+                    <!-- <div class="image">
+                        <img src="/juhee/static/img/bank_logo.png" alt="" />
+                    </div> -->
+                </div>
+            </section>
+    
+            <!-- Sign In -->
+            <section class="section container" id="signin">
+                <h1>SIGN IN</h1>
+                <div class="register-photo">
+                    <div class="form-container">
+                        <div class="image-holder"></div>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        <form method="post" action="{{ url_for('login') }}">
+                            <h2 class="text-center"><strong>Sign</strong> in</h2>
+                            <div class="form-group">
+                                <label for="user_id">User ID</label><br>
+                                <input type="text" class="form-control" id="user_id" name="user_id" required
+                                    placeholder="Enter ID"><br>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label><br>
+                                <input type="password" class="form-control" name="password" id="password"
+                                    placeholder="Enter Password" required><br>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check"><label class="form-check-label"><input class="form-check-input"
+                                            type="checkbox" required>I am not a robot</label></div><br>
+                            </div>
+                            <div class="form-group"><button class="btn btn-success btn-block" type="submit">Submit</button>
+                            </div>
+                            <a class="already" href="#register">New user? Join us here.</a>
+                        </form>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Register -->
+            <section class="section container" id="register">
+                <h1>REGISTER</h1>
+                <div class="register-photo">
+                    <div class="form-container">
+                        <form class="box" action="{{ url_for('register') }}" method="POST">
+                            <div class="form-group">
+                                <h2 class="text-center"><strong>Create</strong> an account.</h2>
+                                <h6 class="text-center">Enter your details & our agent will shortly reach out to you.</h6>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="name" placeholder="Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="email" name="email" placeholder="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="number" placeholder="Number" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" name="password" placeholder="Password"
+                                        required>
+                                </div><br>
+                                <div class="form-group">
+                                    <button class="btn btn-success btn-block" type="submit" onclick="showThanks()">Sign
+                                        Up</button><br><br>
+                                </div>
+                                <a class="already" href="#signup">Already have an account? Login here.</a>
+                            </div>
+                        </form>
+                        <div class="image-holder"></div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Contact -->
+            <section class="section  container" id="contact">
+                <h1>CONTACT</h1>
+                <section class="contact section bd-container-down" id="contact">
+                    <div class="contact__container d-flex justify-content-around">
+                        <div class="contact__data">
+                            <span class="section-subtitle contact__initial">Reach out to us</span><br>
+                            <p class="contact__description">We are available on call or chat, as a 24/7 service.</p>
+                            <ul class="contact__description">
+                                <li>&rarr; Hyderabad, Telangana</li>
+                                <li>&rarr; 7995978220</li>
+                                <li>&rarr; gio_banks@email.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </main>
+        <script src="static/js/main.js"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="nav" id="nav">
+    <div class="nav__menu container" id="nav-menu">
+        <div class="nav__shape"></div>
+        <div class="nav__close" id="nav-close">
+            <i class='bx bx-x'></i>
+        </div>
+        <div class="nav__data">
+            <div class="nav__mask">
+                <img src="static/img/gio_and_banks.webp" alt="" class="nav__img">
+            </div>
+            <span class="nav__greeting">WELCOME </span>
+            <h1 class="nav__name">GIO <br> BANKS</h1>
+        </div>
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a href="{{ url_for('login') }}" class="nav__link">
+                    <i class='bx bx-user'></i> User Sign In
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main class="main" id="main">
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="header__nav container">
+            <a href="#" class="header__logo">
+                GIO & BANKS
+            </a>
+            <div class="header__toggle" id="header-toggle">
+                <i class='bx bx-grid-alt'></i>
+            </div>
+        </nav>
+    </header>
+    <section class="section container" id="signin">
+        <h1>ADMIN SIGN IN</h1>
+        <div class="register-photo">
+            <div class="form-container">
+                <div class="image-holder"></div>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <form method="post" action="{{ url_for('admin_signin') }}">
+                    <h2 class="text-center"><strong>Sign</strong> in</h2>
+                    <div class="form-group">
+                        <label for="user_id">Admin ID</label><br>
+                        <input type="text" class="form-control" id="admin_id" name="admin_id" required
+                            placeholder="Enter ID"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label><br>
+                        <input type="password" class="form-control" name="password" id="password"
+                            placeholder="Enter Password" required><br>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check"><label class="form-check-label"><input class="form-check-input"
+                                    type="checkbox" required>I am not a robot</label></div><br>
+                    </div>
+                    <div class="form-group"><button class="btn btn-success btn-block" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script src="static/js/main.js"></script>
+    {% endblock %}

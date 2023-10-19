@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BOXICON -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS -->
+    <!-- {% block css %} -->
+    <link rel="stylesheet" href="static\css\styles_.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/styles_.css') }}">
+    <!-- {% endblock %} -->
+    <script src="/juhee/static/js/user_update.js"></script>
+    <title>GIO & BANKS</title>
+</head>
+
+<nav class="nav" id="nav">
+    <div class="nav__menu container" id="nav-menu">
+        <div class="nav__shape"></div>
+        <div class="nav__close" id="nav-close">
+            <i class='bx bx-x'></i>
+        </div>
+        <div class="nav__data">
+            <div class="nav__mask">
+                <img src="static/img/gio_and_banks.webp" alt="" class="nav__img">
+            </div>
+            <span class="nav__greeting">WELCOME </span>
+            <h1 class="nav__name">GIO <br> BANKS</h1>
+        </div>
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a href="#adm-user" class="nav__link active-link">
+                    <i class='bx bx-home'></i> Profile
+                </a>
+            </li>
+            <li class="nav__item">
+                <a href="{{ url_for('register') }}" class="nav__link">
+                    <i class='bx bx-briefcase-alt-2'></i> Create New User
+                </a>
+            </li>
+            <li class="nav__item">
+                <a href="{{url_for('logout')}}" class="nav__link">
+                    <i class='bx bx-message-square-detail'></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--=============== MAIN ===============-->
+<main class="main" id="main">
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="header__nav container">
+            <a href="#" class="header__logo">
+                GIO & BANKS
+            </a>
+            <div class="header__toggle" id="header-toggle">
+                <i class='bx bx-grid-alt'></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- User -->
+    <section class="section container" id="user">
+        <h1>PROFILE</h1>
+        <div class="profile">
+            <div class="about">
+                <div class="top">
+                    <h4 class="bank_subtitle"><br><br>Hello, {{ username }}!<br><br>
+                        <form method="GET" action="{{url_for('search_customer', user_id=user_id)}}">
+                            <div class="input-group">
+                                <input type="text" name="query" class="form-control" style="padding:8px;"
+                                    placeholder="Enter Customer ID">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </span>
+                            </div>
+                        </form>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        {% if customer %}
+        <form method="POST" action="{{ url_for('update_manager') }}">
+            <table class="transactiontable" style="width:100%; background-color: #eee1f7;">
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Account Number</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Relationship Manager</th>
+                </tr>
+                <tbody>
+                    {% for details in customer %}
+                    <tr>
+                        <td><input type="text" name="user_id" readonly style="border: none; background-color: #eee1f7"
+                                value="{{ details.user_id }}"></td>
+                        <!-- <td>{{ details.user_id }}</td> -->
+                        <td>{{ details.user_name }}</td>
+                        <td>{{ details.account_number }}</td>
+                        <td>{{ details.user_email }}</td>
+                        <td>{{ details.user_mobile }}</td>
+                        {% if not details.relationship_manager %}
+                        <td>
+                            <select name="dropdown">
+                                <option value="Alina">Alina</option>
+                                <option value="Yash">Yash</option>
+                                <option value="Navin">Navin</option>
+                            </select>
+                            <button type="submit" style="background-color:burlywood">Update Manager</button>
+                        </td>
+                        {% else %}
+                        <td>{{ details.relationship_manager }}</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+            {% if details.status==1 %}
+            <button type="submit" formaction="/delete_user" class="btn btn-light"
+                style="background-color: red;">Delete
+                Account</button>
+            {% else %}
+            <button type="submit" formaction="/delete_user" class="btn btn-light" style="background-color: red;" disabled>Delete
+                Account</button>
+            {% endif %}
+            {% endfor %}
+        </form>
+        {% endif %}
+    </section>
+
+    <!-- Transactions -->
+    <section class="section  container" id="transactionhistory">
+        <h1>TRANSACTIONS TILL DATE</h1>
+        <section class="contact section bd-container-down" id="contact">
+            <div class="contact__container d-flex justify-content-around">
+                <div class="contact__data">
+                    <p class="contact__description"></p>
+                    <table class="transactiontable" style="width:100%">
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Amount</th>
+                            <th>Date & Time</th>
+                        </tr>
+                        <tbody>
+                            {% for transaction in user_transactions %}
+                            <tr>
+                                <td>{{ transaction.user_id }}</td>
+                                {% if transaction.user_id == transaction.receiver_account %}
+                                <td>SELF</td>
+                                {% else %}
+                                <td>{{ transaction.receiver_account }}</td>
+                                {% endif %}
+                                <td>{{ transaction.amount }}</td>
+                                <td>{{ transaction.time_stamp }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+</main>
+
+<script src="/static/js/main.js"></script>
+</body>
+
+</html>

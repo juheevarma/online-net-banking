@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BOXICON -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS -->
+    <!-- {% block css %} -->
+    <link rel="stylesheet" href="static\css\styles_.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/styles_.css') }}">
+    <!-- {% endblock %} -->
+    <script src="/juhee/static/js/user_update.js"></script>
+    <title>GIO & BANKS</title>
+</head>
+
+<body>
+
+    <nav class="nav" id="nav">
+        <div class="nav__menu container" id="nav-menu">
+            <div class="nav__shape"></div>
+            <div class="nav__close" id="nav-close">
+                <i class='bx bx-x'></i>
+            </div>
+            <div class="nav__data">
+                <div class="nav__mask">
+                    <img src="static/img/gio_and_banks.webp" alt="" class="nav__img">
+                </div>
+                <span class="nav__greeting">WELCOME </span>
+                <h1 class="nav__name">GIO <br> BANKS</h1>
+            </div>
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="#" class="nav__link active-link">
+                        <i class='bx bx-home'></i> Profile
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="#" onclick="scrollToSection('#anotheraccount')" class="nav__link">
+                        <i class='bx bx-briefcase-alt-2'></i> Transfer To An Account
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="#" onclick="scrollToSection('#deposit')" class="nav__link">
+                        <i class='bx bx-briefcase-alt-2'></i> Deposit Amount
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="#withdraw" onclick="scrollToSection('#withdraw')" class="nav__link">
+                        <i class='bx bx-briefcase-alt-2'></i> Withdraw Amount
+                    </a>
+                </li>
+                <!-- <li class="nav__item">
+                    <a href="#" onclick="scrollToSection('#transactionhistory')" class="nav__link">
+                        <i class='bx bx-message-square-detail'></i> View Transaction History
+                    </a>
+                </li> -->
+                <li class="nav__item">
+                    <a href="{{url_for('logout')}}" class="nav__link">
+                        <i class='bx bx-message-square-detail'></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--=============== MAIN ===============-->
+    <main class="main" id="main">
+        <!-- Header -->
+        <header class="header" id="header">
+            <nav class="header__nav container">
+                <a href="#" class="header__logo">
+                    GIO & BANKS
+                </a>
+                <div class="header__toggle" id="header-toggle">
+                    <i class='bx bx-grid-alt'></i>
+                </div>
+            </nav>
+        </header>
+
+        <!-- User -->
+        <section class="section container" id="user">
+            <h1>PROFILE</h1>
+            <div class="profile">
+                <div class="about">
+                    <div class="top">
+                        <h4 class="bank_subtitle"><br><br>Hello, {{ username }}!<br>
+                            Current Bank Balance is Rs.
+                            {{ current_bank_balance }}<br><br>
+                            View your <br>
+                            <a href="{{ url_for('dashboard', user_id=user_id) }}">DASHBOARD</a><br><br>
+                            Get in touch with your Relationship Manager!<br>
+                            Name: {{ relationship_manager }} <br><br>
+                            <form method="POST" action="{{url_for('new_account_generation', user_id=user_id)}}">
+                                Generate a new bank account
+                                <button type="submit">Click Here</button><br><br>
+                            </form>
+                        </h4>
+                    </div>
+                </div>
+                <div class="card-container">
+                    <div class="card">
+                        <img src="https://img.freepik.com/premium-vector/cartoon-metaphor-investment-profits-illustration_74855-16063.jpg"
+                            alt="Invest" class="card-img">
+                        <div class="card-content">
+                            <h2>Invest & Grow</h2>
+                            <p>Adding more value while you are investing with us,
+                                get coverage against death and terminal illness without
+                                any medical assessment.</p>
+                            <a href="#" class="btn">Read More</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://media.istockphoto.com/id/1457308716/vector/family-health-care-and-life-insurance-concept-group-people-and-shield-protection-with.jpg?s=612x612&w=0&k=20&c=UMdWbnUtw9QElZZ3eF1VyOM6K07bOa152FoBWyc-evk="
+                            alt="Create a new bank account" class="card-img">
+                        <div class="card-content">
+                            <h2>Get Insured</h2>
+                            <p>View the best insurance policies we have to offer,
+                                nothing like you have ever seen before.
+                            </p>
+                            <a href="#" class="btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transfer -->
+        <section class="section container" id="anotheraccount">
+            <h1>TRANSFER TO ANOTHER ACCOUNT</h1>
+            <div class="register-photo">
+                <div class="form-container">
+                    <div class="image-holder"></div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <form method="post" action="{{ url_for('another_account', user_id=user_id) }}">
+                        <h2 class="text-center"><strong>Account</strong> details.</h2>
+                        <div class="form-group">
+                            <label for="account-number">Receiver Account Number</label><br>
+                            <input type="number" class="form-control" id="receiver_num" name="receiver_num" required
+                                placeholder="A/C No."><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="account-number">Amount</label><br>
+                            <input type="decimal" class="form-control" id="amount" name="amount" required
+                                placeholder="INR"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label><br>
+                            <input type="password" class="form-control" name="password" id="password"
+                                placeholder="Enter Password" required><br>
+                            <div class="form-group"><button class="btn btn-success btn-block"
+                                    type="submit">Send</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deposit -->
+        <section class="section container" id="deposit">
+            <h1>DEPOSIT AMOUNT</h1>
+            <div class="register-photo">
+                <div class="form-container">
+                    <div class="image-holder"></div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <form method="POST" action="{{ url_for('deposit_amount',  user_id=user_id) }}">
+                        <h2 class="text-center"><strong>Amount</strong> details.</h2>
+                        <div class="form-group">
+                            <label for="account-number">Amount</label><br>
+                            <input type="decimal" class="form-control" id="amount" name="amount" required
+                                placeholder="INR"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label><br>
+                            <input type="password" class="form-control" name="password" id="password"
+                                placeholder="Enter Password" required><br>
+                            <div class="form-group"><button class="btn btn-success btn-block"
+                                    type="submit">Deposit</button>
+                            </div>
+                    </form>
+                    <div class="image-holder"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Withdraw -->
+        <section class="section container" id="withdraw">
+            <h1>WITHDRAW AMOUNT</h1>
+            <div class="register-photo">
+                <div class="form-container">
+                    <div class="image-holder"></div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <form method="POST" action="{{ url_for('withdraw_amount',  user_id=user_id) }}">
+                        <h2 class="text-center"><strong>Amount</strong> details.</h2>
+                        <div class="form-group">
+                            <label for="account-number">Amount</label><br>
+                            <input type="decimal" class="form-control" id="amount" name="amount" required
+                                placeholder="INR"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label><br>
+                            <input type="password" class="form-control" name="password" id="password"
+                                placeholder="Enter Password" required><br>
+                            <div class="form-group"><button class="btn btn-success btn-block"
+                                    type="submit">Withdraw</button>
+                            </div>
+                    </form>
+                    <div class="image-holder"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History -->
+        <section class="section  container" id="transactionhistory">
+            <h1>TRANSACTION HISTORY</h1>
+            <section class="contact section bd-container-down" id="contact">
+                <div class="contact__container d-flex justify-content-around">
+                    <div class="contact__data">
+                        <!-- <span class="section-subtitle contact__initial">Transaction history till date</span> -->
+                        <p class="contact__description"></p>
+                        <table class="transactiontable" style="width:100%">
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Transaction Type</th>
+                                <th>Amount</th>
+                                <th>Account Balance</th>
+                                <th>Date & Time</th>
+                            </tr>
+                            <tbody>
+                                {% for transaction in user_transactions %}
+                                <tr>
+                                    <td>{{ transaction.receiver_account }}</td>
+                                    <td>{{ transaction.transaction_type }}</td>
+                                    <td>{{ transaction.amount }}</td>
+                                    <td>{{ transaction.balance }}</td>
+                                    <td>{{ transaction.time_stamp }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+    </main>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>
